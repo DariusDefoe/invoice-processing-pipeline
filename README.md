@@ -69,3 +69,7 @@ chmod +x setup.sh
 # 4. Launch Application (Starts MySQL Container + GUI)
 chmod +x start.sh
 ./start.sh
+```
+
+## ⚠️ Disclaimer
+This repository contains a generalized version of the software used in production. All sensitive logic, specific government protocols, and private data have been removed or mocked to strictly adhere to NDA and security guidelines.
