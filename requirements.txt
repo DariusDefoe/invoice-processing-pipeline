@@ -37,5 +37,5 @@ tkcalendar==1.6.1
 tornado==6.5.2
 traitlets==5.14.3
 tzdata==2025.2
-urllib3==2.5.0
+urllib3==2.6.3
 wcwidth==0.2.13
