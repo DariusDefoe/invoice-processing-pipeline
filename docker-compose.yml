@@ -1,0 +1,28 @@
+name: vatrefunder
+
+services:
+  mysql:
+    image: mysql:9.3.0
+    container_name: vatrefunder_mysql
+    restart: unless-stopped
+    env_file: .env         # optional — overrides anything in environment:
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: ChangeMeUser!
+      MYSQL_DATABASE: vat_refunder
+      MYSQL_USER: vat_user
+      MYSQL_PASSWORD: ChangeMeUser!
+    command: ["--secure-file-priv=/var/lib/mysql-files"]
+    volumes:
+      - mysql-data:/var/lib/mysql
+      - ./db/init:/docker-entrypoint-initdb.d:ro
+      - /home/$USER/Desktop/exports:/var/lib/mysql-files:rw,Z
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-u$$MYSQL_USER", "-p$$MYSQL_PASSWORD"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  mysql-data:
