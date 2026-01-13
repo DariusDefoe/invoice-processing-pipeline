@@ -1,0 +1,38 @@
+# --- Python ---
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual Environments
+venv/
+.venv/
+env/
+
+# --- Environment Variables (CRITICAL) ---
+# Ignore the actual keys, but keep .env.example
+.env
+.env.local
+*.env
+
+# --- Docker ---
+# If you mount local data volumes, ignore them
+mysql_data/
+docker-compose.override.yml
+
+# --- Project Specific Data (Protect your NDA) ---
+# Ignore all Excel inputs and PDF/CSV outputs
+*.xlsx
+*.xls
+*.csv
+*.pdf
+
+# Ignore specific input/output folders if they exist locally
+exports/
+inputs/
+reports/
+
+# --- OS / Editor Junk ---
+.DS_Store
+.vscode/
+.idea/
+Thumbs.db
