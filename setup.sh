@@ -41,7 +41,7 @@ echo "🐬 Starting MySQL container (first run may take a minute)..."
 docker compose up -d
 
 # --- 6️⃣ Install desktop shortcut ---
-DESKTOP_FILE="vat_refunder.desktop"
+DESKTOP_FILE="invoice_processing_pipeline.desktop"
 TARGET_DIR="$HOME/.local/share/applications"
 
 if [ -f "$DESKTOP_FILE" ]; then

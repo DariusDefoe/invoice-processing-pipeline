@@ -1,6 +1,6 @@
 [Desktop Entry]
-Name=VAT Refunder
-Exec=sh -c "$HOME/vat_refunder/start.sh"
+Name=Invoice Processing Pipeline
+Exec=sh -c "$HOME/invoice_processing_pipeline/start.sh"
 Icon=utilities-system-monitor
 Terminal=false
 Type=Application

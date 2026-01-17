@@ -7,7 +7,7 @@ def run(script):
 root = tk.Tk()
 root.title("VAT Refunder")
 buttons = [
-    ("Log Chancery Invoice",  "invoice_chy.py"),
+    ("Log Official Invoices/ Vouchers",  "invoices.py"),
     ("Log Personal Invoice",  "invoice_pers.py"),
     ("Log Residence Invoice", "invoice_res.py"),
     ("Log New Supplier", "new_supplier.py"),
