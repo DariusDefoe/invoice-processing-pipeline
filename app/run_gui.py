@@ -9,9 +9,7 @@ root.title("VAT Refunder")
 buttons = [
     ("Log Official Invoices/ Vouchers",  "invoices.py"),
     ("Log Personal Invoice",  "invoice_pers.py"),
-    ("Log Residence Invoice", "invoice_res.py"),
     ("Log New Supplier", "new_supplier.py"),
-    ("Log Voucher",           "vouchers.py"),
     ("Print Official VAT", "vat_oficial.py"),
     ("Print Personal VAT ", "vat_colleague.py"),
     ("Print Invoice-to-Voucher Report", "vat_vouchers.py"),

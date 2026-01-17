@@ -3,16 +3,18 @@ import tkinter as tk
 from tkinter import messagebox
 from contextlib import contextmanager
 from mysql.connector import Error
-from db import get_cnx  # central DB connector
+# Ensure db.py exists, or replace this import with the connection function
+from db import get_cnx 
 
 # ==========================================================
-# Context manager for automatic cleanup
+# Context manager (Fixed for UnboundLocalError)
 # ==========================================================
 @contextmanager
 def db_cursor(commit=False):
     cnx = get_cnx()
-    cur = cnx.cursor()
+    cur = None
     try:
+        cur = cnx.cursor()
         yield cur
         if commit:
             cnx.commit()
@@ -20,13 +22,19 @@ def db_cursor(commit=False):
         cnx.rollback()
         raise e
     finally:
-        cur.close()
+        if cur:
+            cur.close()
+        # Be careful closing cnx here if get_cnx() returns a pooled connection.
+        # If it's a fresh connection every time, this is fine.
         cnx.close()
 
 # ==========================================================
-# Function to add supplier to database and retrieve new Supplier_ID
+# Function to add supplier
 # ==========================================================
-def add_supplier( nif_code, supplier_name):
+def add_supplier(nif_code, supplier_name):
+    success = False
+    new_id = 0
+    
     try:
         with db_cursor(commit=True) as cur:
             insert_query = """
@@ -34,23 +42,31 @@ def add_supplier( nif_code, supplier_name):
             VALUES (%s, %s)
             """
             cur.execute(insert_query, (nif_code, supplier_name))
-        
-            # Retrieve the last inserted Supplier_ID
-            new_supplier_id = cur.lastrowid
-            messagebox.showinfo("Success", f"Supplier added successfully with ID: {new_supplier_id}")
+            
+            # Use lastrowid only if you have an AUTO_INCREMENT column. 
+            # If NIF is the key, this might return 0.
+            new_id = cur.lastrowid 
+            success = True
+            
     except Error as e:
-        messagebox.showerror("Error", f"Error: {e}")
+        messagebox.showerror("Database Error", f"Error: {e}")
+    except Exception as e:
+        messagebox.showerror("Error", f"An unexpected error occurred: {e}")
+
+    # Show success message OUTSIDE the database transaction
+    if success:
+        id_display = new_id if new_id != 0 else nif_code
+        messagebox.showinfo("Success", f"Supplier added successfully.\nID/NIF: {id_display}")
 
 # ==========================================================
 # Function to handle button click event
 # ==========================================================
 def submit():
-    nif_code = entry_nif.get()
-    supplier_name = entry_name.get()
+    nif_code = entry_nif.get().strip() # Added strip() to remove accidental spaces
+    supplier_name = entry_name.get().strip()
 
     if nif_code and supplier_name:
         add_supplier(nif_code, supplier_name)
-        # Clear the entries after insertion
         entry_nif.delete(0, tk.END)
         entry_name.delete(0, tk.END)
     else:
